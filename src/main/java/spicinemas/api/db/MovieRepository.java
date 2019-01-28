@@ -15,9 +15,10 @@ public class MovieRepository {
     @Autowired
     private DSLContext dsl;
 
-    public List<Movie> getNowShowingMovies() {
+    public List<Movie> getNowShowingMovies(String type, String location, String languages) {
         return dsl.select()
-                .from(DSL.table("MOVIE"))
+                .from(DSL.table("Movie"))
+                .where(DSL.field("Movie.locationId").eq(type))
                 .fetchInto(Movie.class);
     }
 
