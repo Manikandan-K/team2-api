@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import spicinemas.api.model.MovieBuilder;
 import spicinemas.api.type.MovieListingType;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class MovieController {
             method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void init() {
 
-        movieRepo.addMovie(new Movie("Dunkirk", "good", MovieListingType.NOW_SHOWING));
+        movieRepo.addMovie(new MovieBuilder().setName("Dunkirk").setExperiences("good").setListingType(MovieListingType.NOW_SHOWING).setReleaseDate(null).setSynopsis(null).setRunTime(0).setCast("").setCrew("").setBannerImageUrl("").setLanguageId(1l).createMovie());
     }
 
     @RequestMapping(value = "/movies/now-showing",
