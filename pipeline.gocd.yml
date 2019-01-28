@@ -27,4 +27,4 @@ pipelines:
                 - node-and-java
               tasks:
                 - script: |
-                    buildAndDeploy/deploy/deploy.sh team2 sethu-origin-key-pair
+                    buildAndDeploy/deploy/deploy.sh team2 bootcamp-jan-19
