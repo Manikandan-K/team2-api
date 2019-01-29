@@ -18,12 +18,15 @@ public class MovieRepository {
     public List<Movie> getNowShowingMovies(String type, String location, String languages) {
         return dsl.select()
                 .from(DSL.table("Movie"))
-                .where(DSL.field("Movie.locationId").eq(type))
+/*
+                .join(DSL.table("Language")).on("Movie.languageId==Language.id")
+                .where("Movie.languageId in "+languages)
+*/
                 .fetchInto(Movie.class);
     }
 
     public void addMovie(Movie movie) {
-        dsl.insertInto(DSL.table("MOVIE"), DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
+        dsl.insertInto(DSL.table("Movie"), DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
                 .values(movie.getName(), movie.getExperiences(), movie.getListingType().toString())
                 .execute();
 
@@ -31,10 +34,17 @@ public class MovieRepository {
 
     public Movie getMovie(String name) {
         return dsl.select(DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
-                .from(DSL.table("MOVIE"))
-                .where(DSL.field("MOVIE.NAME").eq(name))
+                .from(DSL.table("Movie"))
+                .where(DSL.field("Movie.NAME").eq(name))
                 .fetchOne()
                 .into(Movie.class);
     }
 
+    public Movie getMovieById(int id) {
+        return dsl.select(DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
+                .from(DSL.table("Movie"))
+                .where(DSL.field("Movie.id").eq(id))
+                .fetchOne()
+                .into(Movie.class);
+    }
 }
