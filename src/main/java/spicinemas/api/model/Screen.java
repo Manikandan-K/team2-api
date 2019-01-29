@@ -18,6 +18,12 @@ public class Screen {
         this.capacity = capacity;
     }
 
+    public Screen(String name, Long locationId, int capacity) {
+        this.name = name;
+        this.locationId = locationId;
+        this.capacity = capacity;
+    }
+
     public Long getId() {
         return id;
     }

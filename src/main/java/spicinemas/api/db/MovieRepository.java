@@ -22,17 +22,21 @@ public class MovieRepository {
                 .fetchInto(Movie.class);
     }
 
-    public void addMovie(Movie movie) {
-        dsl.insertInto(DSL.table("MOVIE"), DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
-                .values(movie.getName(), movie.getExperiences(), movie.getListingType().toString())
-                .execute();
-
+    public long addMovie(Movie movie) {
+        return (long) dsl.insertInto(DSL.table("Movie"), DSL.field("name"), DSL.field("experiences"), DSL.field("releaseDate"),
+                    DSL.field("synopsis"), DSL.field("runTime"), DSL.field("cast"), DSL.field("crew"), DSL.field("bannerImageUrl"), DSL.field("languageId"))
+                    .values(movie.getName(), movie.getExperiences(), movie.getReleaseDate(),
+                            movie.getSynopsis(), movie.getRunTime(), movie.getCast(), movie.getCrew(),
+                            movie.getBannerImageUrl(), movie.getLanguageId())
+                    .returning(DSL.field("id"))
+                    .fetchOne()
+                    .get(DSL.field("id"));
     }
 
     public Movie getMovie(String name) {
-        return dsl.select(DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
-                .from(DSL.table("MOVIE"))
-                .where(DSL.field("MOVIE.NAME").eq(name))
+        return dsl.select(DSL.field("name"))
+                .from(DSL.table("Movie"))
+                .where(DSL.field("Movie.name").eq(name))
                 .fetchOne()
                 .into(Movie.class);
     }

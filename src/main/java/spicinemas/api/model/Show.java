@@ -19,6 +19,12 @@ public class Show {
         this.showTime = showTime;
     }
 
+    public Show(Long screenId, Long movieId, Date showTime) {
+        this.screenId = screenId;
+        this.movieId = movieId;
+        this.showTime = showTime;
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,10 +34,14 @@ public class Show {
     }
 
     public Long getMovieId() {
-        return movieId;
+        return this.movieId;
     }
 
     public Date getShowTime() {
         return showTime;
+    }
+
+    public Long getSceenId() {
+        return this.screenId;
     }
 }
