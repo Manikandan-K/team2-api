@@ -17,7 +17,7 @@ public class MovieRepository {
 
     public List<Movie> getNowShowingMovies(String type, String location, String languages) {
         return dsl.select()
-                .from(DSL.table("Movie"))
+                .from(DSL.table("public.\"Movie\""))
 /*
                 .join(DSL.table("Language")).on("Movie.languageId==Language.id")
                 .where("Movie.languageId in "+languages)

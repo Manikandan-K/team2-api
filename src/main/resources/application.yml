@@ -10,3 +10,4 @@ spring:
     url: jdbc:postgresql://localhost:7654/spicinemas
     username: spiuser
     password: spiuser
+    schema: public
