@@ -69,4 +69,10 @@ public class ShowRepositoryTest {
         assertThat(actualShow.getShowTime(), is(showTime));
 
     }
+
+    @Test
+    public void shouldReturnMovieShows() {
+        List<ShowVO> shows = showRepository.getShows(1, 1, new Date());
+        Assert.assertNotNull(shows);
+    }
 }
