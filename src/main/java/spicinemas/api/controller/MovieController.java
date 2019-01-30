@@ -30,7 +30,7 @@ public class MovieController {
                                            @RequestParam(value = "location") String location,
                                            @RequestParam(value = "languages") String languages
                                            ) {
-        return movieManagement.getMovies(type,location,languages);
+        return movieManagement.getMovies(location,languages);
     }
 
 

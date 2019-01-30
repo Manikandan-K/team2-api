@@ -19,12 +19,23 @@ public class MovieRepository {
     @Autowired
     private DSLContext dsl;
 
-    public List<Movie> getNowShowingMovies(long[] languages) {
+    public List<Movie> getNowShowingMovies(Long[] languages) {
         String now = LocalDate.now().toString();
         return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
                 .from(DSL.table("public.\"Movie\""))
                 .where("\"releaseDate\" <= '"+now+"'::date")
-                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).mapToObj(DSL::val).collect(toList()))))
+                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .fetchInto(Movie.class);
+    }
+
+
+    public List<Movie> getNowShowingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
+        String now = LocalDate.now().toString();
+        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
+                .from(DSL.table("public.\"Movie\""))
+                .where("\"releaseDate\" <= '"+now+"'::date")
+                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("\"id\"").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
                 .fetchInto(Movie.class);
     }
 

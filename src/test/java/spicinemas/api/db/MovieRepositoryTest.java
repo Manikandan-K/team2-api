@@ -30,7 +30,7 @@ public class MovieRepositoryTest {
 
     @Test
     public void shouldReturnNowShowingMovies(){
-        List<Movie> nowShowingList = movieRepo.getNowShowingMovies(new long[]{1l});
+        List<Movie> nowShowingList = movieRepo.getNowShowingMovies(new Long[]{1l});
         Assert.assertEquals(8,nowShowingList.size());
     }
 
