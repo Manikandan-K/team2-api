@@ -35,10 +35,6 @@ public class ShowRepositoryTest {
        Assert.assertEquals(1, movieIds.size());
        Assert.assertEquals(1l,movieIds.get(0));
     }
-}
-    private ShowRepository showRepo;
-    @Autowired
-    DSLContext dslContext;
 
     @Test
     public void shouldInsertShowInDb() {
@@ -56,7 +52,7 @@ public class ShowRepositoryTest {
         long screenId = screenRep.addScreen(screen);
 
         MovieRepository movieRep = new MovieRepository();
-        Movie movie = new Movie("Star wars", "IMAX", null, new Date(), "asdf", 150, "a, b", "c, d", "asdf", language.getId());
+        Movie movie = new Movie("Star wars", "IMAX", new Date(), "asdf", 150, "a, b", "c, d", "asdf", language.getId());
         long movieId = movieRep.addMovie(movie);
 
         Date showTime = new Date();
@@ -66,9 +62,9 @@ public class ShowRepositoryTest {
                 .setScreenId(screenId)
                 .setShowTime(showTime)
                 .createShow();
-        long showId = showRepo.addShow(currentShow);
+        long showId = showRepository.addShow(currentShow);
 
-        Show actualShow = showRepo.getShow(showId);
+        Show actualShow = showRepository.getShow(showId);
         assertThat(actualShow.getMovieId(), is(currentShow.getMovieId()));
         assertThat(actualShow.getSceenId(), is(screenId));
         assertThat(actualShow.getShowTime(), is(showTime));

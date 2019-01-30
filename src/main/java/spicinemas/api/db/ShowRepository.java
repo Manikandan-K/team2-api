@@ -28,7 +28,7 @@ public class ShowRepository {
                 .where(DSL.field("Show.id").eq(showId))
                 .fetchOne()
                 .into(Show.class);
-
+    }
 
     public List getDistinctMovieIdsByLocation(long locationId) {
 
