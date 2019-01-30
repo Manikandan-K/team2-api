@@ -52,15 +52,24 @@ public class MovieRepository {
     }*/
 
 
-
     public List<Movie> geUpcomingMovies(long[] languages) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
+        return dsl.select(DSL.field("name"), DSL.field("\"releaseDate\""))
                 .from(DSL.table("public.\"Movie\""))
-                .where("\"releaseDate\" > '"+now+"'::date")
+                .where("\"releaseDate\" > '" + now + "'::date")
                 .fetchInto(Movie.class);
     }
 
+    public long addMovie(Movie movie) {
+        return (long) dsl.insertInto(DSL.table("Movie"), DSL.field("name"), DSL.field("experiences"), DSL.field("releaseDate"),
+                    DSL.field("synopsis"), DSL.field("runTime"), DSL.field("cast"), DSL.field("crew"), DSL.field("bannerImageUrl"), DSL.field("languageId"))
+                    .values(movie.getName(), movie.getExperiences(), movie.getReleaseDate(),
+                            movie.getSynopsis(), movie.getRunTime(), movie.getCast(), movie.getCrew(),
+                            movie.getBannerImageUrl(), movie.getLanguageId())
+                    .returning(DSL.field("id"))
+                    .fetchOne()
+                    .get(DSL.field("id"));
+    }
 
     public Movie getMovie(String name) {
         return dsl.select(DSL.field("name"))
@@ -71,7 +80,7 @@ public class MovieRepository {
     }
 
     public Movie getMovieById(int id) {
-        return dsl.select(DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
+        return dsl.select()
                 .from(DSL.table("Movie"))
                 .where(DSL.field("Movie.id").eq(id))
                 .fetchOne()

@@ -5,19 +5,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class Booking {
 
-    private Long bookingId;
-    private String userEmail;
-    private String userName;
-    private Long showId;
+    private long bookingId;
 
-    public Booking(Long bookingId, String userEmail, String userName, Long showId) {
-        this.bookingId = bookingId;
-        this.userEmail = userEmail;
-        this.userName = userName;
-        this.showId = showId;
-    }
-
-    public Long getBookingId() {
+    public long getBookingId() {
         return bookingId;
     }
 
@@ -29,7 +19,23 @@ public class Booking {
         return userName;
     }
 
-    public Long getShowId() {
+    public long getShowId() {
         return showId;
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    private String userEmail;
+    private String userName;
+    private long showId;
+    private int numberOfSeats;
+
+    public Booking(Long showId, String userEmail, String userName, int numberOfSeats) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.showId = showId;
+        this.numberOfSeats = numberOfSeats;
     }
 }

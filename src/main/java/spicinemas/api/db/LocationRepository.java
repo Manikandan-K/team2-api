@@ -20,4 +20,13 @@ public class LocationRepository {
                 .fetchInto(Location.class);
     }
 
+    public long addLocation(Location location) {
+        return (long) dsl.insertInto(
+                    DSL.table("\"Location\""),
+                    DSL.field("city"))
+                .values(location.getCity())
+                .returning(DSL.field("id"))
+                .fetchOne()
+                .get(DSL.field("id"));
+    }
 }

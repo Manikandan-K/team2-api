@@ -13,6 +13,10 @@ public class Location {
         this.city = city;
     }
 
+    public Location(String city) {
+        this.city = city;
+    }
+
     public Long getId() {
         return id;
     }

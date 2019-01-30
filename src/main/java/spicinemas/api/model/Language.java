@@ -13,11 +13,12 @@ public class Language {
         this.id = id;
     }
 
-    public Language() {
+    public Language(String name) {
+        this.name = name;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Long getId() {
