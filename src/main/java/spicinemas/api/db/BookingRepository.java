@@ -15,9 +15,9 @@ public class BookingRepository {
     private DSLContext dsl;
 
     public long addBooking(Booking booking) {
-        return (long) dsl.insertInto(DSL.table("Booking"),
-                    DSL.field("showId"), DSL.field("userEmail"),
-                    DSL.field("userName"))
+        return (long) dsl.insertInto(DSL.table("public.\"Booking\""))
+                .columns(DSL.field("\"showId\""), DSL.field("\"userEmail\""),
+                    DSL.field("\"userName\""))
                 .values(booking.getShowId(), booking.getUserEmail(), booking.getUserName())
                 .returning(DSL.field("id"))
                 .fetchOne()
