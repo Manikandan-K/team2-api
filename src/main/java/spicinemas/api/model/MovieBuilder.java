@@ -7,7 +7,6 @@ import java.util.Date;
 public class MovieBuilder {
     private String name;
     private String experiences;
-    private MovieListingType listingType;
     private Date releaseDate;
     private String synopsis;
     private int runTime;
@@ -26,10 +25,6 @@ public class MovieBuilder {
         return this;
     }
 
-    public MovieBuilder setListingType(MovieListingType listingType) {
-        this.listingType = listingType;
-        return this;
-    }
 
     public MovieBuilder setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
@@ -67,6 +62,6 @@ public class MovieBuilder {
     }
 
     public Movie createMovie() {
-        return new Movie(name, experiences, listingType, releaseDate, synopsis, runTime, cast, crew, bannerImageUrl, languageId);
+        return new Movie(name, experiences, releaseDate, synopsis, runTime, cast, crew, bannerImageUrl, languageId);
     }
 }

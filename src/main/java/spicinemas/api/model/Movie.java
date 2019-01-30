@@ -1,7 +1,6 @@
 package spicinemas.api.model;
 
 import lombok.EqualsAndHashCode;
-import spicinemas.api.type.MovieListingType;
 
 import java.util.Date;
 
@@ -10,7 +9,6 @@ public class Movie {
     private Long id;
     private String name;
     private String experiences;
-    private MovieListingType listingType;
     private Date releaseDate;
     private String synopsis;
     private int runTime;
@@ -20,10 +18,9 @@ public class Movie {
     private Long languageId;
 
 
-    public Movie(String name, String experiences, MovieListingType listingType, Date releaseDate, String synopsis, int runTime, String cast, String crew, String bannerImageUrl, Long languageId) {
+    public Movie(String name, String experiences, Date releaseDate, String synopsis, int runTime, String cast, String crew, String bannerImageUrl, Long languageId) {
         this.name = name;
         this.experiences = experiences;
-        this.listingType = listingType;
         this.releaseDate = releaseDate;
         this.synopsis = synopsis;
         this.runTime = runTime;
@@ -77,7 +74,4 @@ public class Movie {
         return experiences;
     }
 
-    public MovieListingType getListingType() {
-        return listingType;
-    }
 }

@@ -22,7 +22,7 @@ public class MovieManagement {
 
 
     public List<Movie> getMovies(String type, String location, String languages) {
-        return movieRepository.getNowShowingMovies(type,location,languages);
+        return movieRepository.getNowShowingMovies(new long[1]);
     }
 
     public Movie getMovieByName(String name) {
