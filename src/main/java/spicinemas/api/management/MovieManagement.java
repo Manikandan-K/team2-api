@@ -7,6 +7,7 @@ import spicinemas.api.db.MovieRepository;
 import spicinemas.api.db.ShowRepository;
 import spicinemas.api.model.Movie;
 import spicinemas.api.model.MovieBuilder;
+import spicinemas.api.type.MovieListingType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +26,17 @@ public class MovieManagement {
     }
 
 
-    public List<Movie> getMovies(String type, String location) {
+    public List<Movie> getMovies(String type, int location,String languages) {
 
-        long locationId = 1l;
+        long locationId = Long.valueOf(location);
         List<Long> movieIds = showRepository.getDistinctMovieIdsByLocation(locationId);
         Long[] res = movieIds.toArray(new Long[0]);
-        return movieRepository.getNowShowingMoviesByIdsAndLanguageIds(new Long[1],res);
+        if(MovieListingType.NOW_SHOWING.toString().equalsIgnoreCase(type)) {
+            return movieRepository.getNowShowingMoviesByIdsAndLanguageIds(new Long[]{1l},res);
+        }else {
+            return movieRepository.getUpcomingMoviesByIdsAndLanguageIds(new Long[]{1l},res);
+        }
+
     }
 
     public Movie getMovieByName(String name) {

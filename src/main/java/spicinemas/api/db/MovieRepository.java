@@ -39,17 +39,17 @@ public class MovieRepository {
                 .fetchInto(Movie.class);
     }
 
-
-  /*  public List<Movie> getNowShowingMoviesFilteredByLocation(long[] languages,long locationID) {
+    public List<Movie> getUpcomingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
         return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
                 .from(DSL.table("public.\"Movie\""))
-                .innerJoin(DSL.table("public.\"Screen\""))
-                .on(DSL.field("id").eq(DSL.field()))
-                .where("\"releaseDate\" <= '"+now+"'::date")
-                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).mapToObj(DSL::val).collect(toList()))))
+                .where("\"releaseDate\" > '"+now+"'::date")
+                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("\"id\"").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
                 .fetchInto(Movie.class);
-    }*/
+    }
+
+
 
 
     public List<Movie> geUpcomingMovies(long[] languages) {

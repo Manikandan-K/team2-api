@@ -27,10 +27,10 @@ public class MovieController {
     @RequestMapping(value = "/movies",
             method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE,params = {"type","location","languages"})
     public List<Movie> getNowShowingMovies(@RequestParam(value = "type") String type,
-                                           @RequestParam(value = "location") String location,
+                                           @RequestParam(value = "location") int location,
                                            @RequestParam(value = "languages") String languages
                                            ) {
-        return movieManagement.getMovies(location,languages);
+        return movieManagement.getMovies(type,location,languages);
     }
 
 
