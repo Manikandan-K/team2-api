@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import spicinemas.SpiCinemasApplication;
-import spicinemas.api.model.Show;
-import spicinemas.api.model.ShowBuilder;
+import spicinemas.api.model.*;
 
 import java.util.Date;
 
@@ -28,8 +27,23 @@ public class ShowRepositoryTest {
 
     @Test
     public void shouldInsertShowInDb() {
-        long screenId = 1;
-        long movieId = 1;
+        LanguageRepository langRep = new LanguageRepository();
+//        Language language = new Language("tamil");
+//        langRep.addLanguage(language);
+        Language language = langRep.getLanguageByName("Tamil");
+
+        LocationRepository locationRep = new LocationRepository();
+        Location location = new Location("chennai");
+        long locationId = locationRep.addLocation(location);
+
+        ScreenRepository screenRep = new ScreenRepository();
+        Screen screen = new Screen("PVR X", locationId, 100);
+        long screenId = screenRep.addScreen(screen);
+
+        MovieRepository movieRep = new MovieRepository();
+        Movie movie = new Movie("Star wars", "IMAX", null, new Date(), "asdf", 150, "a, b", "c, d", "asdf", language.getId());
+        long movieId = movieRep.addMovie(movie);
+
         Date showTime = new Date();
 
         Show currentShow = new ShowBuilder()

@@ -18,14 +18,20 @@ public class MovieManagement {
 
 
     public void addMovie(Movie movie) {
-
     }
 
-    public List<Movie> getNowShowingMovies() {
-        return null;
-    }
 
     public List<Movie> getMovies(String type, String location, String languages) {
         return movieRepository.getNowShowingMovies(type,location,languages);
     }
+
+    public Movie getMovieByName(String name) {
+        return null;
+    }
+
+    public Movie getMovieById(int id) {
+        return movieRepository.getMovieById(id);
+    }
+
+
 }

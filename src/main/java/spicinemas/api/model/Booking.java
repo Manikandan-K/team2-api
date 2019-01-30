@@ -17,6 +17,12 @@ public class Booking {
         this.showId = showId;
     }
 
+    public Booking(String userEmail, String userName, Long showId) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.showId = showId;
+    }
+
     public Long getBookingId() {
         return bookingId;
     }

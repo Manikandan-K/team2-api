@@ -14,7 +14,7 @@ public class ShowRepository {
     @Autowired
     private DSLContext dsl;
     public long addShow(Show currentShow) {
-        return (long) dsl.insertInto(DSL.table("Show"), DSL.field("screenId"), DSL.field("movieId"), DSL.field("showTime"))
+        return (long) dsl.insertInto(DSL.table("public.Show"), DSL.field("screenId"), DSL.field("movieId"), DSL.field("showTime"))
                 .values(currentShow.getScreenId(), currentShow.getMovieId(), currentShow.getShowTime())
                 .returning(DSL.field("id"))
                 .fetchOne()
