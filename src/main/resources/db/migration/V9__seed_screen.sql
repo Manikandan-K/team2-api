@@ -1,0 +1,1 @@
+INSERT INTO public."Screen"(id, name, capacity, "locationId") VALUES (1, 'Screen 1', 10, 1);

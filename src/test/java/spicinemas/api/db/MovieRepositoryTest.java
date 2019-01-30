@@ -31,14 +31,14 @@ public class MovieRepositoryTest {
     @Test
     public void shouldReturnNowShowingMovies(){
         List<Movie> nowShowingList = movieRepo.getNowShowingMovies(new Long[]{1l});
-        Assert.assertEquals(8,nowShowingList.size());
+        Assert.assertTrue(nowShowingList.size()>0);
     }
 
 
     @Test
     public void shouldReturnUpcomingMovies(){
         List<Movie> upcomingMovies = movieRepo.geUpcomingMovies(new long[]{1l});
-        Assert.assertEquals(0,upcomingMovies.size());
+        Assert.assertTrue(upcomingMovies.size()<=0);
     }
 
     @Test
