@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import spicinemas.api.model.Movie;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @Transactional
@@ -15,13 +19,33 @@ public class MovieRepository {
     @Autowired
     private DSLContext dsl;
 
-    public List<Movie> getNowShowingMovies(String type, String location, String languages) {
-        return dsl.select()
+    public List<Movie> getNowShowingMovies(long[] languages) {
+        String now = LocalDate.now().toString();
+        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
                 .from(DSL.table("public.\"Movie\""))
-/*
-                .join(DSL.table("Language")).on("Movie.languageId==Language.id")
-                .where("Movie.languageId in "+languages)
-*/
+                .where("\"releaseDate\" <= '"+now+"'::date")
+                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).mapToObj(DSL::val).collect(toList()))))
+                .fetchInto(Movie.class);
+    }
+
+
+  /*  public List<Movie> getNowShowingMoviesFilteredByLocation(long[] languages,long locationID) {
+        String now = LocalDate.now().toString();
+        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
+                .from(DSL.table("public.\"Movie\""))
+                .innerJoin(DSL.table("public.\"Screen\""))
+                .on(DSL.field("id").eq(DSL.field()))
+                .where("\"releaseDate\" <= '"+now+"'::date")
+                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).mapToObj(DSL::val).collect(toList()))))
+                .fetchInto(Movie.class);
+    }*/
+
+
+    public List<Movie> geUpcomingMovies(long[] languages) {
+        String now = LocalDate.now().toString();
+        return dsl.select(DSL.field("name"), DSL.field("\"releaseDate\""))
+                .from(DSL.table("public.\"Movie\""))
+                .where("\"releaseDate\" > '" + now + "'::date")
                 .fetchInto(Movie.class);
     }
 
@@ -37,9 +61,9 @@ public class MovieRepository {
     }
 
     public Movie getMovie(String name) {
-        return dsl.select(DSL.field("NAME"), DSL.field("EXPERIENCES"), DSL.field("LISTING_TYPE"))
-                .from(DSL.table("MOVIE"))
-                .where(DSL.field("MOVIE.NAME").eq(name))
+        return dsl.select(DSL.field("name"))
+                .from(DSL.table("public.\"Movie\""))
+                .where(DSL.field("name").eq(name))
                 .fetchOne()
                 .into(Movie.class);
     }
@@ -51,5 +75,4 @@ public class MovieRepository {
                 .fetchOne()
                 .into(Movie.class);
     }
-
 }

@@ -21,7 +21,7 @@ public class MovieController {
             method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void init() {
 
-        movieManagement.addMovie(new MovieBuilder().setName("Dunkirk").setExperiences("good").setListingType(MovieListingType.NOW_SHOWING).setReleaseDate(null).setSynopsis(null).setRunTime(0).setCast("").setCrew("").setBannerImageUrl("").setLanguageId(1l).createMovie());
+        movieManagement.addMovie(new MovieBuilder().setName("Dunkirk").setExperiences("good").setReleaseDate(null).setSynopsis(null).setRunTime(0).setCast("").setCrew("").setBannerImageUrl("").setLanguageId(1l).createMovie());
     }
 
     @RequestMapping(value = "/movies",
