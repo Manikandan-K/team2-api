@@ -12,7 +12,7 @@ import spicinemas.SpiCinemasApplication;
 
 import java.util.List;
 
-import spicinemas.api.dto.Show;
+import spicinemas.api.dto.ShowVO;
 import spicinemas.api.model.*;
 
 import java.util.Date;
@@ -81,7 +81,7 @@ public class ShowRepositoryTest {
 
     @Test
     public void shouldReturnMovieShows() {
-        List<Show> shows = showRepository.getShows(1, 1, new Date());
+        List<ShowVO> shows = showRepository.getShows(1, 1, new Date());
         Assert.assertNotNull(shows);
     }
 }
