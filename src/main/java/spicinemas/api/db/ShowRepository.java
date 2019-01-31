@@ -5,9 +5,7 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import spicinemas.api.model.Show;
-import spicinemas.api.model.ShowVO;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +32,7 @@ public class ShowRepository {
                 .into(Show.class);
     }
 
-    public List<ShowVO> getShows(long movieId, long location, Date showDate) {
+    public List<spicinemas.api.dto.Show> getShows(long movieId, long location, Date showDate) {
 
         return dsl.select(DSL.field("Show.id").as("id"),
                 DSL.field("Movie.name").as("movieName"),
@@ -53,7 +51,7 @@ public class ShowRepository {
                 .and("locationId = "+ location)
                 .and("showTime >= '"+ showDate +"'::date")
                 .and("showTime < ('"+ showDate +"'::date + '1 day'::interval)")
-                .fetchInto(ShowVO.class);
+                .fetchInto(spicinemas.api.dto.Show.class);
     }
 
     public List getDistinctMovieIdsByLocation(long locationId) {
@@ -62,5 +60,13 @@ public class ShowRepository {
         List records = dsl.fetch(query).getValues(0);
         return records;
 
+    }
+
+    public Show getShowById(long showId) {
+        return dsl.select()
+                .from(DSL.table("Show"))
+                .where(DSL.field("id").eq(showId))
+                .fetchInto(Show.class)
+                .get(0);
     }
 }

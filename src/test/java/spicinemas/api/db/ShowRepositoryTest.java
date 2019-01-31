@@ -2,7 +2,6 @@ package spicinemas.api.db;
 
 import org.jooq.DSLContext;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import spicinemas.SpiCinemasApplication;
 
 import java.util.List;
+
+import spicinemas.api.dto.Show;
 import spicinemas.api.model.*;
 
 import java.util.Date;
@@ -64,14 +65,14 @@ public class ShowRepositoryTest {
 
         Date showTime = new Date();
 
-        Show currentShow = new ShowBuilder()
+        spicinemas.api.model.Show currentShow = new ShowBuilder()
                 .setMovieId(movieId)
                 .setScreenId(screenId)
                 .setShowTime(showTime)
                 .createShow();
         long showId = showRepository.addShow(currentShow);
 
-        Show actualShow = showRepository.getShow(showId);
+        spicinemas.api.model.Show actualShow = showRepository.getShow(showId);
         assertThat(actualShow.getMovieId(), is(currentShow.getMovieId()));
         assertThat(actualShow.getScreenId(), is(screenId));
         assertThat(actualShow.getShowTime(), is(showTime));
@@ -80,7 +81,7 @@ public class ShowRepositoryTest {
 
     @Test
     public void shouldReturnMovieShows() {
-        List<ShowVO> shows = showRepository.getShows(1, 1, new Date());
+        List<Show> shows = showRepository.getShows(1, 1, new Date());
         Assert.assertNotNull(shows);
     }
 }

@@ -31,7 +31,7 @@ public class MovieRepository {
 
     public List<Movie> getNowShowingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("releaseDate"))
+        return dsl.select(DSL.field("name"),DSL.field("releaseDate"), DSL.field("experiences"))
                 .from(DSL.table("Movie"))
                 .where("releaseDate <= '"+now+"'::date")
                 .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
@@ -41,7 +41,7 @@ public class MovieRepository {
 
     public List<Movie> getUpcomingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("releaseDate"))
+        return dsl.select(DSL.field("name"),DSL.field("releaseDate"), DSL.field("experiences"))
                 .from(DSL.table("Movie"))
                 .where("releaseDate > '"+now+"'::date")
                 .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
