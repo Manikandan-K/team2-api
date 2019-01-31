@@ -3,6 +3,7 @@ package spicinemas.api.dto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @EqualsAndHashCode
@@ -13,7 +14,7 @@ public class ShowVO {
     private String movieName;
     private String experiences;
     private String screenName;
-    private Date showTime;
+    private String showTime;
     private long capacity;
 
     public ShowVO(long id, String movieName, String experiences, String screenName, Date showTime, long capacity) {
@@ -22,7 +23,12 @@ public class ShowVO {
         this.experiences = experiences;
         this.screenName = screenName;
         this.capacity = capacity;
-        this.showTime = showTime;
+        this.showTime = formatShowTime(showTime);
+    }
+
+    private String formatShowTime(Date showTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
+        return dateFormat.format(showTime);
     }
 
     public long getId() {
@@ -41,7 +47,7 @@ public class ShowVO {
         return screenName;
     }
 
-    public Date getShowTime() {
+    public String getShowTime() {
         return showTime;
     }
 
