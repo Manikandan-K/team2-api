@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import spicinemas.SpiCinemasApplication;
+import spicinemas.api.dto.MovieVO;
 import spicinemas.api.model.Movie;
 import spicinemas.api.model.MovieBuilder;
 import spicinemas.api.type.MovieListingType;
@@ -40,4 +41,11 @@ public class MovieRepositoryTest {
         List<Movie> upcomingMovies = movieRepo.geUpcomingMovies(new long[]{1l});
         Assert.assertNotNull(upcomingMovies);
     }
+
+    @Test
+    public void getNowShowingMoviesByIdsAndLanguageIds() {
+        List<MovieVO> upcomingMovies = movieRepo.getNowShowingMoviesByIdsAndLanguageIds(new Long[]{1l},new Long[]{1l});
+        Assert.assertNotNull(upcomingMovies);
+    }
+
 }

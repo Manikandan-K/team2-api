@@ -2,6 +2,7 @@ package spicinemas.api.controller;
 
 import org.springframework.web.bind.annotation.*;
 import spicinemas.api.db.MovieRepository;
+import spicinemas.api.dto.MovieVO;
 import spicinemas.api.management.MovieManagement;
 import spicinemas.api.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class MovieController {
 
     @RequestMapping(value = "/movies",
             method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE,params = {"type","location","languages"})
-    public List<Movie> getNowShowingMovies(@RequestParam(value = "type") String type,
-                                           @RequestParam(value = "location") int location,
-                                           @RequestParam(value = "languages") String languages
+    public List<MovieVO> getNowShowingMovies(@RequestParam(value = "type") String type,
+                                             @RequestParam(value = "location") int location,
+                                             @RequestParam(value = "languages") String languages
                                            ) {
         return movieManagement.getMovies(type,location,languages);
     }

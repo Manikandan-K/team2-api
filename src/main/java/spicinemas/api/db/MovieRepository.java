@@ -5,6 +5,7 @@ import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import spicinemas.api.dto.MovieVO;
 import spicinemas.api.model.Movie;
 
 import java.time.LocalDate;
@@ -29,24 +30,33 @@ public class MovieRepository {
     }
 
 
-    public List<Movie> getNowShowingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
+    public List<MovieVO> getNowShowingMoviesByIdsAndLanguageIds(Long[] languages, Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("id"),DSL.field("name"),DSL.field("releaseDate"), DSL.field("experiences"))
-                .from(DSL.table("Movie"))
-                .where("releaseDate <= '"+now+"'::date")
-                .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
-                .and(DSL.field("id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
-                .fetchInto(Movie.class);
+        return dsl.select(DSL.field("Movie.id").as("id"),
+                DSL.field("Movie.name").as("name"),
+                DSL.field("Movie.releaseDate").as("releaseDate"),
+                DSL.field("Movie.experiences").as("experiences"),
+                DSL.field("Language.name").as("language"))
+                .from(DSL.table("Movie")).join(DSL.table("Language")).on(DSL.field("Movie.languageId").eq(DSL.field("Language.id")))
+                .where("Movie.releaseDate <= '"+now+"'::date")
+                .and(DSL.field("Movie.languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("Movie.id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
+                .fetchInto(MovieVO.class);
     }
 
-    public List<Movie> getUpcomingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
+    public List<MovieVO> getUpcomingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("id"),DSL.field("name"),DSL.field("releaseDate"), DSL.field("experiences"))
-                .from(DSL.table("Movie"))
-                .where("releaseDate > '"+now+"'::date")
-                .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
-                .and(DSL.field("id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
-                .fetchInto(Movie.class);
+        return dsl.select(
+                DSL.field("Movie.id").as("id"),
+                DSL.field("Movie.name").as("name"),
+                DSL.field("Movie.releaseDate").as("releaseDate"),
+                DSL.field("Movie.experiences").as("experiences"),
+                DSL.field("Language.name").as("language"))
+                .from(DSL.table("Movie")).join(DSL.table("Language")).on(DSL.field("Movie.languageId").eq(DSL.field("Language.id")))
+                .where("Movie.releaseDate > '"+now+"'::date")
+                .and(DSL.field("Movie.languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("Movie.id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
+                .fetchInto(MovieVO.class);
     }
 
 
