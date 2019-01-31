@@ -15,6 +15,4 @@ public class BookingManagement {
     public long createNewBooking(Booking bookingRequest) {
         return bookingsRepository.addBooking(bookingRequest);
     }
-
-
 }

@@ -21,31 +21,31 @@ public class MovieRepository {
 
     public List<Movie> getNowShowingMovies(Long[] languages) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
-                .from(DSL.table("public.\"Movie\""))
-                .where("\"releaseDate\" <= '"+now+"'::date")
-                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+        return dsl.select(DSL.field("name"),DSL.field("releaseDate"))
+                .from(DSL.table("Movie"))
+                .where("releaseDate <= '"+now+"'::date")
+                .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
                 .fetchInto(Movie.class);
     }
 
 
     public List<Movie> getNowShowingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
-                .from(DSL.table("public.\"Movie\""))
-                .where("\"releaseDate\" <= '"+now+"'::date")
-                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
-                .and(DSL.field("\"id\"").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
+        return dsl.select(DSL.field("name"),DSL.field("releaseDate"))
+                .from(DSL.table("Movie"))
+                .where("releaseDate <= '"+now+"'::date")
+                .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
                 .fetchInto(Movie.class);
     }
 
     public List<Movie> getUpcomingMoviesByIdsAndLanguageIds(Long[] languages,Long[] movieIds) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"),DSL.field("\"releaseDate\""))
-                .from(DSL.table("public.\"Movie\""))
-                .where("\"releaseDate\" > '"+now+"'::date")
-                .and(DSL.field("\"languageId\"").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
-                .and(DSL.field("\"id\"").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
+        return dsl.select(DSL.field("name"),DSL.field("releaseDate"))
+                .from(DSL.table("Movie"))
+                .where("releaseDate > '"+now+"'::date")
+                .and(DSL.field("languageId").in(DSL.list(Arrays.stream(languages).map(DSL::val).collect(toList()))))
+                .and(DSL.field("id").in(DSL.list(Arrays.stream(movieIds).map(DSL::val).collect(toList()))))
                 .fetchInto(Movie.class);
     }
 
@@ -54,15 +54,15 @@ public class MovieRepository {
 
     public List<Movie> geUpcomingMovies(long[] languages) {
         String now = LocalDate.now().toString();
-        return dsl.select(DSL.field("name"), DSL.field("\"releaseDate\""))
-                .from(DSL.table("public.\"Movie\""))
-                .where("\"releaseDate\" > '" + now + "'::date")
+        return dsl.select(DSL.field("name"), DSL.field("releaseDate"))
+                .from(DSL.table("Movie"))
+                .where("releaseDate > '" + now + "'::date")
                 .fetchInto(Movie.class);
     }
 
     public long addMovie(Movie movie) {
         return (long) dsl.insertInto(DSL.table("Movie"), DSL.field("name"), DSL.field("experiences"), DSL.field("releaseDate"),
-                    DSL.field("synopsis"), DSL.field("runTime"), DSL.field("cast"), DSL.field("crew"), DSL.field("bannerImageUrl"), DSL.field("languageId"))
+                    DSL.field("synopsis"), DSL.field("runTime"), DSL.field("movieCast"), DSL.field("crew"), DSL.field("bannerImageUrl"), DSL.field("languageId"))
                     .values(movie.getName(), movie.getExperiences(), movie.getReleaseDate(),
                             movie.getSynopsis(), movie.getRunTime(), movie.getCast(), movie.getCrew(),
                             movie.getBannerImageUrl(), movie.getLanguageId())
@@ -73,7 +73,7 @@ public class MovieRepository {
 
     public Movie getMovie(String name) {
         return dsl.select(DSL.field("name"))
-                .from(DSL.table("public.\"Movie\""))
+                .from(DSL.table("Movie"))
                 .where(DSL.field("name").eq(name))
                 .fetchOne()
                 .into(Movie.class);

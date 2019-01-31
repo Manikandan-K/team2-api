@@ -40,8 +40,4 @@ public class Show {
     public Date getShowTime() {
         return showTime;
     }
-
-    public Long getSceenId() {
-        return this.screenId;
-    }
 }

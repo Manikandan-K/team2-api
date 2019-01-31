@@ -19,13 +19,25 @@ import java.util.Date;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpiCinemasApplication.class)
 @ActiveProfiles("test")
 public class ShowRepositoryTest {
     @Autowired
     private ShowRepository showRepository;
+
+    @Autowired
+    private LanguageRepository langRep;
+
+    @Autowired
+    private LocationRepository locationRep;
+
+    @Autowired
+    private ScreenRepository screenRep;
+
+    @Autowired
+    private MovieRepository movieRep;
+
     @Autowired
     DSLContext dslContext;
 
@@ -38,21 +50,17 @@ public class ShowRepositoryTest {
 
     @Test
     public void shouldInsertShowInDb() {
-        LanguageRepository langRep = new LanguageRepository();
-//        Language language = new Language("tamil");
-//        langRep.addLanguage(language);
-        Language language = langRep.getLanguageByName("Tamil");
+        Language language = new Language("Telugu");
+        long languageId = langRep.addLanguage(language);
+        language = langRep.getLanguageByName("Telugu");
 
-        LocationRepository locationRep = new LocationRepository();
         Location location = new Location("chennai");
         long locationId = locationRep.addLocation(location);
 
-        ScreenRepository screenRep = new ScreenRepository();
         Screen screen = new Screen("PVR X", locationId, 100);
         long screenId = screenRep.addScreen(screen);
 
-        MovieRepository movieRep = new MovieRepository();
-        Movie movie = new Movie("Star wars", "IMAX", new Date(), "asdf", 150, "a, b", "c, d", "asdf", language.getId());
+        Movie movie = new Movie("Star wars", "IMAX", new Date(), "asdf", 150, "a, b", "c, d", "asdf", languageId);
         long movieId = movieRep.addMovie(movie);
 
         Date showTime = new Date();
@@ -66,7 +74,7 @@ public class ShowRepositoryTest {
 
         Show actualShow = showRepository.getShow(showId);
         assertThat(actualShow.getMovieId(), is(currentShow.getMovieId()));
-        assertThat(actualShow.getSceenId(), is(screenId));
+        assertThat(actualShow.getScreenId(), is(screenId));
         assertThat(actualShow.getShowTime(), is(showTime));
 
     }

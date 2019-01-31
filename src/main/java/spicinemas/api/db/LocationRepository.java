@@ -21,9 +21,8 @@ public class LocationRepository {
     }
 
     public long addLocation(Location location) {
-        return (long) dsl.insertInto(
-                    DSL.table("\"Location\""),
-                    DSL.field("city"))
+        return (long) dsl.insertInto(DSL.table("Location"))
+                .columns(DSL.field("city"))
                 .values(location.getCity())
                 .returning(DSL.field("id"))
                 .fetchOne()

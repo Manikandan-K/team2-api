@@ -18,7 +18,8 @@ public class ShowRepository {
     @Autowired
     private DSLContext dsl;
     public long addShow(Show currentShow) {
-        return (long) dsl.insertInto(DSL.table("public.Show"), DSL.field("screenId"), DSL.field("movieId"), DSL.field("showTime"))
+        return (long) dsl.insertInto(DSL.table("Show"))
+                .columns(DSL.field("screenId"), DSL.field("movieId"), DSL.field("showTime"))
                 .values(currentShow.getScreenId(), currentShow.getMovieId(), currentShow.getShowTime())
                 .returning(DSL.field("id"))
                 .fetchOne()
@@ -35,29 +36,29 @@ public class ShowRepository {
 
     public List<ShowVO> getShows(long movieId, long location, Date showDate) {
 
-        return dsl.select(DSL.field("public.\"Show\".\"id\"").as("id"),
-                DSL.field("public.\"Movie\".\"name\"").as("movieName"),
-                DSL.field("public.\"Movie\".\"experiences\"").as("experiences"),
-                DSL.field("public.\"Screen\".\"name\"").as("screenName"),
-                DSL.field("public.\"Show\".\"showTime\"").as("showTime"),
-                DSL.field("public.\"Screen\".\"capacity\"").as("capacity"))
-                .from(DSL.table("public.\"Show\""))
-                .leftOuterJoin(DSL.table("public.\"Screen\""))
-                .on(DSL.field("public.\"Show\".\"screenId\"").eq(DSL.field("public.\"Screen\".\"id\"")))
+        return dsl.select(DSL.field("Show.id").as("id"),
+                DSL.field("Movie.name").as("movieName"),
+                DSL.field("Movie.experiences").as("experiences"),
+                DSL.field("Screen.name").as("screenName"),
+                DSL.field("Show.showTime").as("showTime"),
+                DSL.field("Screen.capacity").as("capacity"))
+                .from(DSL.table("Show"))
+                .leftOuterJoin(DSL.table("Screen"))
+                .on(DSL.field("Show.screenId").eq(DSL.field("Screen.id")))
 
-                .leftOuterJoin(DSL.table("public.\"Movie\""))
-                .on(DSL.field("public.\"Show\".\"movieId\"").eq(DSL.field("public.\"Movie\".\"id\"")))
+                .leftOuterJoin(DSL.table("Movie"))
+                .on(DSL.field("Show.movieId").eq(DSL.field("Movie.id")))
 
-                .where("\"movieId\" = " + movieId)
-                .and("\"locationId\" = "+ location)
-                .and("\"showTime\" >= '"+ showDate +"'::date")
-                .and("\"showTime\" < ('"+ showDate +"'::date + '1 day'::interval)")
+                .where("movieId = " + movieId)
+                .and("locationId = "+ location)
+                .and("showTime >= '"+ showDate +"'::date")
+                .and("showTime < ('"+ showDate +"'::date + '1 day'::interval)")
                 .fetchInto(ShowVO.class);
     }
 
     public List getDistinctMovieIdsByLocation(long locationId) {
 
-        String query = "select public.\"Show\".\"movieId\" from public.\"Show\" join public.\"Screen\" on public.\"Show\".\"screenId\" = public.\"Screen\".id where public.\"Screen\".\"locationId\" ="+locationId;
+        String query = "select Show.movieId from Show join Screen on Show.screenId = Screen.id where Screen.locationId ="+locationId;
         List records = dsl.fetch(query).getValues(0);
         return records;
 
