@@ -22,24 +22,32 @@ public class ShowRepository1 {
 
     public List<ShowVO> getShows(long movieId, long location, Date showDate) {
 
-        return dsl.select(DSL.field("public.\"Show\".\"id\"").as("id"),
-                DSL.field("public.\"Movie\".\"name\"").as("movieName"),
-                DSL.field("public.\"Movie\".\"experiences\"").as("experiences"),
-                DSL.field("public.\"Screen\".\"name\"").as("screenName"),
-                DSL.field("public.\"Show\".\"showTime\"").as("showTime"),
-                DSL.field("public.\"Screen\".\"capacity\"").as("capacity"))
-                .from(DSL.table("public.\"Show\""))
-                .leftOuterJoin(DSL.table("public.\"Screen\""))
-                .on(DSL.field("public.\"Show\".\"screenId\"").eq(DSL.field("public.\"Screen\".\"id\"")))
+        return dsl.select(DSL.field("Show.id").as("id"),
+                DSL.field("Movie.name").as("movieName"),
+                DSL.field("Movie.experiences").as("experiences"),
+                DSL.field("Screen.name").as("screenName"),
+                DSL.field("Show.showTime").as("showTime"),
+                DSL.field("Screen.capacity").as("capacity"))
+                .from(DSL.table("Show"))
+                .leftOuterJoin(DSL.table("Screen"))
+                .on(DSL.field("Show.screenId").eq(DSL.field("Screen.id")))
 
-                .leftOuterJoin(DSL.table("public.\"Movie\""))
-                .on(DSL.field("public.\"Show\".\"movieId\"").eq(DSL.field("public.\"Movie\".\"id\"")))
+                .leftOuterJoin(DSL.table("Movie"))
+                .on(DSL.field("Show.movieId").eq(DSL.field("Movie.id")))
 
-                .where("\"movieId\" = " + movieId)
-                .and("\"locationId\" = "+ location)
-                .and("\"showTime\" >= '"+ showDate +"'::date")
-                .and("\"showTime\" < ('"+ showDate +"'::date + '1 day'::interval)")
+                .where("movieId = " + movieId)
+                .and("locationId = "+ location)
+                .and("showTime >= '"+ showDate +"'::date")
+                .and("showTime < ('"+ showDate +"'::date + '1 day'::interval)")
                 .fetchInto(ShowVO.class);
 
+    }
+    
+    public Show getShowById(long showId) {
+        return dsl.select()
+                .from(DSL.table("Show"))
+                .where(DSL.field("id").eq(showId))
+                .fetchInto(Show.class)
+                .get(0);
     }
 }

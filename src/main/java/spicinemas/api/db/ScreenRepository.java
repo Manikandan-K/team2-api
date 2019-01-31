@@ -13,6 +13,14 @@ public class ScreenRepository {
     @Autowired
     private DSLContext dsl;
 
+    public Screen getScreenById(long id) {
+        return dsl.select()
+                .from(DSL.table("Screen"))
+                .where(DSL.field("id").eq(id))
+                .fetchInto(Screen.class)
+                .get(0);
+    }
+
     public long addScreen(Screen screen) {
         return (long) dsl.insertInto(
                     DSL.table("Screen"),

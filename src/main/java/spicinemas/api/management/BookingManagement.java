@@ -15,4 +15,12 @@ public class BookingManagement {
     public long createNewBooking(Booking bookingRequest) {
         return bookingsRepository.addBooking(bookingRequest);
     }
+
+    public Booking getBookingById(long bookingId) {
+        return bookingsRepository.getBooking(bookingId);
+    }
+
+    public long getNumberOfSeatsBookedForShow(long showId) {
+        return bookingsRepository.getNumberOfSeatsBookedForShow(showId);
+    }
 }

@@ -4,11 +4,14 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class Booking {
+    public Booking(){
 
-    private long bookingId;
+    }
+
+    private long id;
 
     public long getBookingId() {
-        return bookingId;
+        return id;
     }
 
     public String getUserEmail() {
@@ -24,7 +27,7 @@ public class Booking {
     }
 
     public int getNumberOfSeats() {
-        return numberOfSeats;
+        return this.numberOfSeats;
     }
 
     private String userEmail;
