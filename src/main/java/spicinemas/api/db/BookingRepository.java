@@ -28,7 +28,7 @@ public class BookingRepository {
     }
 
     public Booking getBooking(long bookingId) {
-        return dsl.select(DSL.field("showId"), DSL.field("userEmail"), DSL.field("userName"))
+        return dsl.select(DSL.field("id"), DSL.field("showId"), DSL.field("userEmail"), DSL.field("userName"), DSL.field("numberOfSeats"))
                 .from(DSL.table("Booking"))
                 .where(DSL.field("Booking.id").eq(bookingId))
                 .fetchOne()

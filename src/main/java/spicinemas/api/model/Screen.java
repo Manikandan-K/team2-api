@@ -11,7 +11,7 @@ public class Screen {
     private Long locationId;
     private int capacity;
 
-    public Screen(Long id, String name, Long locationId, int capacity) {
+    public Screen(Long id, String name, int capacity, Long locationId) {
         this.id = id;
         this.name = name;
         this.locationId = locationId;
