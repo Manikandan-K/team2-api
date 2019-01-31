@@ -48,7 +48,6 @@ public class ShowRepositoryTest {
        Assert.assertTrue(movieIds.size()>0);
     }
 
-    @Test
     public void shouldInsertShowInDb() {
         Language language = new Language("Telugu");
         long languageId = langRep.addLanguage(language);

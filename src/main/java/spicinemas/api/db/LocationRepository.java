@@ -16,7 +16,7 @@ public class LocationRepository {
 
     public List<Location> getAllLocations() {
         return dsl.select()
-                .from(DSL.table("public.\"Location\""))
+                .from(DSL.table("Location"))
                 .fetchInto(Location.class);
     }
 
